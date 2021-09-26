@@ -56,7 +56,7 @@ class PBSBuilder:
         process_list = list()
         for dir in self.batch_dirs:
             try:
-                process = multiprocessing.Process(target=self._qsub_launcher,
+                process = multiprocessing.Process(target=qsub_launcher,
                                                   args=(dir))
                 process_list.append(process)
                 process.start()
@@ -76,10 +76,6 @@ class PBSBuilder:
                     root_list.append(os.path.join(root, directory))
 
         return root_list
-
-    def _qsub_launcher(self, pbs_script_path: str) -> None:
-        os.chdir(pbs_script_path)
-        subprocess.run(["qsub", os.path.join(pbs_script_path, "submit.pbs")])
 
     def _write_pbs(self, outdir: str, batch_commands: List[dict]) -> None:
         with open(os.path.join(outdir, "submit.pbs"), "wt") as fout:
@@ -102,6 +98,11 @@ class PBSBuilder:
             # Write commands that come after the batch command
             for post in self.append_commands:
                 fout.write(post + "\n")
+
+
+def qsub_launcher(pbs_script_path: str) -> None:
+        os.chdir(pbs_script_path)
+        subprocess.run(["qsub", os.path.join(pbs_script_path, "submit.pbs")])
 
 
 if __name__ == "__main__":
