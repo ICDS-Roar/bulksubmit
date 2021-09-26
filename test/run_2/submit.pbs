@@ -1,0 +1,11 @@
+#PBS -A open
+#PBS -l nodes=1:ppn=1:stmem
+#PBS -l walltime=48:00:00
+#PBS -j oe
+#PBS -M jam760@psu.edu
+#PBS -m abe
+echo "Job started on $(hostname) at $(date)"
+cd $PBS_O_WORKDIR
+source mix/bin/activate
+mixemt 360K.965.267_87.R.bam -v -S 210224 --ref mixemt/mixemt/ref/rCRS.mtDNA.fa -s 965.267_87 -t 965.267_87 -b 965.267_87
+echo "Job Ended at $(date)"

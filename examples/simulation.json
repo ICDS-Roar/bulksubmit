@@ -1,0 +1,45 @@
+{
+    "meta_data": {
+        "simulation_name": "test",
+        "output_directory": "."
+    },
+
+    "pbs_directives": [
+        "#PBS -A open",
+        "#PBS -l nodes=1:ppn=1:stmem",
+        "#PBS -l walltime=48:00:00",
+        "#PBS -j oe",
+        "#PBS -M jam760@psu.edu",
+        "#PBS -m abe"
+    ],
+
+    "prepend_commands": [
+        "echo \"Job started on $(hostname) at $(date)\"",
+        "cd $PBS_O_WORKDIR",
+        "source mix/bin/activate"
+    ],
+
+    "simulation_parameters": [
+        {
+            "root_command": "mixemt {} -v -S {} --ref {} -s {} -t {} -b {}",
+            "batch_parameters": [
+                {
+                    "name": "run_1",
+                    "parameters" : [
+                        "360K.787.832_50.R.bam", "210224", "mixemt/mixemt/ref/rCRS.mtDNA.fa", "787.832_50", "787.832_50", "787.832_50"
+                    ]
+                },
+                {
+                    "name": "run_2",
+                    "parameters": [
+                        "360K.965.267_87.R.bam", "210224", "mixemt/mixemt/ref/rCRS.mtDNA.fa", "965.267_87", "965.267_87", "965.267_87"
+                    ]
+                }
+            ]
+        }
+    ],
+
+    "append_commands": [
+        "echo \"Job Ended at $(date)\""
+    ]
+}
